@@ -23,10 +23,12 @@
 
 ### Technology Stack:
 #### HTML, CSS, and JavaScript for the frontend interface and user interaction.
-#### Leaflet.js for creating interactive maps and markers.
 #### Data visualization libraries for presenting statistical insights.
-##### Libraries: Leaflet, CesiumJS (3d, 2d, 2.5d Columbus View), Openmaps
-#### Visualization: ECharts.apache.org (https://echarts.apache.org/examples/en/editor.html?c=scatter-single-axis)
+##### Libraries:
+###### Leaflet: will be utilized for creating interactive maps and markers.
+###### CesiumJS (3d, 2, 2.5d Columbus View): will be used to show topographical and hot spots of accidents. 
+#### Other Visualization: ECharts.apache.org (https://echarts.apache.org/examples/en/editor.html?c=scatter-single-axis)
+##### Will be used to visualize the hourly accidents per hour each day of the week. 
 
 ### Expected Impact:
 #### This interactive car crash map will serve as a valuable resource for both the general public and local authorities. It will promote road safety awareness, inform drivers about high-risk areas and times, and facilitate data-driven decision-making by local law enforcement and traffic management authorities. By providing real-time insights into car crash incidents, the map aims to contribute to reducing car crashes and improving overall road safety in Montgomery County.
