@@ -1,5 +1,7 @@
 # Car_Accident_Areas
 ## Project Proposal: Interactive Car Crash Map
+### Created by:
+#### Amary Henry, Brandon Loredo, Christina LaManna, Kady Epley
 
 ### Project Overview:
 #### We propose to develop an interactive web-based map that visualizes and analyzes car crash data in Montgomery County, Maryland, for July 2023. This map will allow users to explore car crash incidents across different hours of the day by dragging a cursor across the timeline. By providing insights into the frequency, locations, timing, and types of car crashes, the map aims to raise public awareness, enhance road safety measures, and facilitate data-informed decisions.
@@ -17,11 +19,13 @@
 
 ### Data Source:
 #### The car crash data will be sourced from the "Crash Reporting - Incidents Data" dataset provided by Montgomery County, Maryland. This dataset contains detailed information about each reported car crash, including date, time, location, crash type, road conditions, and more. The dataset will be used to populate the interactive map.
+##### https://data.montgomerycountymd.gov/api/views/mmzv-x632/rows.json?accessType=DOWNLOAD
 
 ### Technology Stack:
 #### HTML, CSS, and JavaScript for the frontend interface and user interaction.
 #### Leaflet.js for creating interactive maps and markers.
-#### Data visualization libraries (such as Chart.js) for presenting statistical insights.
+#### Data visualization libraries for presenting statistical insights.
+##### Libraries: Leaflet, CesiumJS (3d, 2d, 2.5d Columbus View), Openmaps
 
 ### Expected Impact:
 #### This interactive car crash map will serve as a valuable resource for both the general public and local authorities. It will promote road safety awareness, inform drivers about high-risk areas and times, and facilitate data-driven decision-making by local law enforcement and traffic management authorities. By providing real-time insights into car crash incidents, the map aims to contribute to reducing car crashes and improving overall road safety in Montgomery County.
