@@ -14,16 +14,14 @@ var map = new ol.Map({
     })
   });
   
-  // Add markers
-  const carAccidents = [
-    { latitude: 39.15403667, longitude: -77.25183283 },
-    // Add more accidents as needed
-  ];
-  
-  carAccidents.forEach(accident => {
-    var marker = new ol.Feature({
-      geometry: new ol.geom.Point(
-        ol.proj.fromLonLat([accident.longitude, accident.latitude])
+
+  // fetch data
+  d3.json('/scatter').then(data => {
+      console.log(data)
+      data.forEach(crash => {
+        var marker = new ol.Feature({
+          geometry: new ol.geom.Point(
+            ol.proj.fromLonLat([crash.longitude, crash.latitude])
       )
     });
     
@@ -45,3 +43,7 @@ var map = new ol.Map({
   
     map.addLayer(vectorLayer);
   });
+    })
+
+    // different d3 json for each different map
+    // queries on app.py
