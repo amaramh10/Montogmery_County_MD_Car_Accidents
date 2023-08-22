@@ -33,6 +33,9 @@
 ### Expected Impact:
 #### This interactive car crash map will serve as a valuable resource for both the general public and local authorities. It will promote road safety awareness, inform drivers about high-risk areas and times, and facilitate data-driven decision-making by local law enforcement and traffic management authorities. By providing real-time insights into car crash incidents, the map aims to contribute to reducing car crashes and improving overall road safety in Montgomery County.
 
+### Project Sketch:
+#### https://docs.google.com/presentation/d/1plQUg4QxmbayZzDaNsiQUsu9HhABVuRDmgMfZhST9PQ/edit#slide=id.p
+
 ### Conclusion:
 #### The proposed interactive car crash map will provide a user-friendly platform for visualizing and understanding car crash data in Montgomery County. By leveraging real-time data and advanced visualization techniques, this map aims to raise awareness, enhance road safety, and contribute to informed decision-making in the community.
 
