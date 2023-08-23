@@ -16,7 +16,7 @@ var map = new ol.Map({
   
 
   // fetch data for geomap graph
-  d3.json('/geomap').then(data => {
+  d3.json('/bubble').then(data => {
       console.log(data)
       data.forEach(crash => {
         var marker = new ol.Feature({

@@ -30,7 +30,7 @@ def geomap():
 
 
 
-# ROUTE FOR bubble PLOT
+# ROUTE FOR bubble PLOT using only crash_data
 @app.route("/bubble")
 def bubble(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
@@ -42,8 +42,20 @@ def bubble():
     bubble_data = cur.fetchall()
     cur.close()
     conn.close()
+
+    bubblelist = []
+    for item in bubble_data:
+        bubblelist.append({
+            "Report Number": item[0],
+            "Report Type": item[1],
+            "Date & Time": item[2],
+            "Weather": item[3],
+            "Light": item[4],
+            "Latitude": item[5],
+            "Longitude": item[6]
+        })
     # return render_template('index.html', data=data)
-    return jsonify(bubble_data)
+    return jsonify(bubblelist)
    
 
 
