@@ -5,32 +5,66 @@ app = Flask(__name__)
 
 #Route to produce your main home page. 
 #Feel free to add additional HTML routes to add additional pages
+# DONT TOUCH THIS ONE
 @app.route("/")
 def index(): 
    return render_template("index.html")
 
-@app.route("/scatter")
-def scatter(): 
+
+
+# ROUTE FOR GEO MAP
+@app.route("/geomap")
+def geomap():
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
-  
 # create a cursor
     cur = conn.cursor()
-    
-# if you already have any table or not id doesnt matter this 
-# will create a products table for you.
-    cur.execute('''SELECT * FROM "Crash_Data";''')
-    data = cur.fetchall()
+# connect table.
+    cur.execute('''SELECT * FROM "Crash_Data" LEFT JOIN "Vehicle_Information" ON "Crash_Data".report_num = "Vehicle_Information".report_num LEFT JOIN "Driver" ON "Crash_Data".report_num = "Driver".report_num;''')
+    map_data = cur.fetchall()
     cur.close()
     conn.close()
     # return render_template('index.html', data=data)
-    return jsonify(data)
+    return jsonify(map_data)
+
+
+
+
+# ROUTE FOR bubble PLOT
+@app.route("/bubble")
+def bubble(): 
+    conn = psycopg2.connect(database="car_crash", user="postgres",
+                        password="postgres", host="localhost", port="5432")
+# create a cursor
+    cur = conn.cursor()
+# connect tables.
+    cur.execute('''SELECT * FROM "Crash_Data";''')
+    bubble_data = cur.fetchall()
+    cur.close()
+    conn.close()
+    # return render_template('index.html', data=data)
+    return jsonify(bubble_data)
    
-# define the variable ^
+
+
+
+# ROUTE FOR LINE PLOT
 @app.route("/line")
 def line(): 
-   return jsonify(line_Data)
-# define above
+    conn = psycopg2.connect(database="car_crash", user="postgres",
+                        password="postgres", host="localhost", port="5432")
+# create a cursor
+    cur = conn.cursor()
+# connect tables.
+    cur.execute('''SELECT * FROM "Crash_Data";''')
+    line_data = cur.fetchall()
+    cur.close()
+    conn.close()
+    # return render_template('index.html', data=data)
+    return jsonify(line_data)
+
+
+
 # Connect to the database
 
 

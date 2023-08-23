@@ -15,8 +15,8 @@ var map = new ol.Map({
   });
   
 
-  // fetch data
-  d3.json('/scatter').then(data => {
+  // fetch data for geomap graph
+  d3.json('/geomap').then(data => {
       console.log(data)
       data.forEach(crash => {
         var marker = new ol.Feature({
