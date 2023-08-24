@@ -5,11 +5,12 @@ app = Flask(__name__)
 
 #Route to produce your main home page. 
 #Feel free to add additional HTML routes to add additional pages
+
 # DONT TOUCH THIS ONE
 @app.route("/")
 def index(): 
    return render_template("index.html")
-
+# ^DON'T TOUCH THIS ONE^
 
 
 # ROUTE FOR GEO MAP
@@ -24,8 +25,31 @@ def geomap():
     map_data = cur.fetchall()
     cur.close()
     conn.close()
+
+    map_list = []
+    for item in map_data:
+        map_list.append({
+            "Report Number": item[0],
+            "Report Type": item[1],
+            "Date & Time": item[2],
+            "Weather": item[3],
+            "Light": item[4],
+            "Latitude": item[5],
+            "Longitude": item[6],
+            "Report Number": item[7],
+            "Vehicle_ID": item[8],
+            "Vehicle Damage": item[9],
+            "Body Type": item[10],
+            "Year": item[11],
+            "Make": item[12],
+            "Model": item[13],
+            "Report Number": item[14],
+            "SubstanceAbuse": item[15],
+            "Person_ID": item[16],
+            "Injury Severity": item[17]
+        })
     # return render_template('index.html', data=data)
-    return jsonify(map_data)
+    return jsonify(map_list)
 
 
 
@@ -60,7 +84,7 @@ def bubble():
 
 
 
-# ROUTE FOR LINE PLOT
+# ROUTE FOR LINE PLOT USING ONLY CRASH DATA
 @app.route("/line")
 def line(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
@@ -72,8 +96,20 @@ def line():
     line_data = cur.fetchall()
     cur.close()
     conn.close()
+
+    line_list = []
+    for item in line_data:
+        line_list.append({
+            "Report Number": item[0],
+            "Report Type": item[1],
+            "Date & Time": item[2],
+            "Weather": item[3],
+            "Light": item[4],
+            "Latitude": item[5],
+            "Longitude": item[6]
+        })
     # return render_template('index.html', data=data)
-    return jsonify(line_data)
+    return jsonify(line_list)
 
 
 
