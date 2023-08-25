@@ -6,6 +6,10 @@
   <title>OpenLayers Map Example</title>
 
   <!-- Include OpenLayers library -->
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css">
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -21,8 +25,13 @@
 <body>
   <div id="map"></div>
   <div id="markerInfo"></div>
-
-  SUPERCALIFRAGILISTICEXPIALIDOCIOUS
+  <!-- Add the dropdown element -->
+  <select id="weekDropdown" onchange="updateMapMarkers()">
+    <option value="week1">Week 1</option>
+    <option value="week2">Week 2</option>
+    <option value="week3">Week 3</option>
+    <option value="week4">Week 4</option>
+  </select>
 <script src="{{ url_for('static', filename='logic.js') }}"></script>
 
 
