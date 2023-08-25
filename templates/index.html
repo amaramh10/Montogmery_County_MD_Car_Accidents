@@ -3,7 +3,13 @@
 <head> 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenLayers Map Example</title>
+  <title>Combined Example</title>
+
+  <!-- Include Leaflet library -->
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
   <!-- Include OpenLayers library -->
   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css">
@@ -17,16 +23,32 @@
       height: 500px;
     }
   </style>
+
+  <!-- Include ECharts library -->
+  <link rel="stylesheet" href="/static/echarts.css">
 </head>
 <body>
+
+  <!-- ECharts related scripts -->
+  <div id="chart-container"></div>
+  <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="/static/logic.js"></script>
+
+  <!-- Setup Map -->
   <div id="map"></div>
+  <div id="markerInfo"></div>
 
-  add something for title
-<script src="{{ url_for('static', filename='logic.js') }}"></script>
+  <!-- Include OpenLayers logic -->
+  <script src="{{ url_for('static', filename='logic.js') }}"></script>
 
 
-
-
+  <!-- Add the dropdown element -->
+  <select id="weekDropdown" onchange="updateMapMarkers()">
+    <option value="week1">Week 1</option>
+    <option value="week2">Week 2</option>
+    <option value="week3">Week 3</option>
+    <option value="week4">Week 4</option>
+  </select>
 
 </body>
 </html>
