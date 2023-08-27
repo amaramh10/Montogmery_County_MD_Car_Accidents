@@ -57,11 +57,11 @@ def bubble():
     conn.close()
     bubblelist = []
     for item in bubble_data:
-        bubblelist.append({
-            "day_numeric": item[0],
-            "hour": item[1],
-            "accident_count": item[2]
-        })
+        bubblelist.append([
+            item[0],
+            item[1],
+            item[2]
+        ])
     # return render_template('index.html', data=data)
     return jsonify(bubblelist)
 

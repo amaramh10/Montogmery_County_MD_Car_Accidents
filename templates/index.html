@@ -14,7 +14,14 @@
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Include ECharts library -->
+    <link rel="stylesheet" href="/static/echarts.css">
+
+    <!-- Include ECharts library -->
+    <link rel="stylesheet" href="/static/line.css">
+  
   <style>
+  
     /* Set the map container's dimensions */
     #map {
       width: 100%;
@@ -26,27 +33,17 @@
   <div id="map"></div>
   <div id="markerInfo"></div>
   
-<script src="{{ url_for('static', filename='logic.js') }}"></script>
 
-
-  <!-- Include ECharts library -->
-  <link rel="stylesheet" href="/static/echarts.css">
-
-  <!-- Include ECharts library -->
-  <link rel="stylesheet" href="/static/line.css">
-
-</head>
-<body>
 
   <!-- ECharts related scripts -->
   <div id="chart-container"></div>
   <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-  <script src="/static/logic.js"></script>
+ 
 
   <!-- ECharts related scripts -->
   <div id="linechart-container"></div>
-  <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-  <script src="/static/logic.js"></script>
+  <!-- <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script> -->
+ 
 
   <!-- Setup Map -->
   <div id="map"></div>
