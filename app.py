@@ -12,44 +12,70 @@ def index():
    return render_template("index.html")
 # ^DON'T TOUCH THIS ONE^
 
-
-# ROUTE FOR GEO MAP
-@app.route("/geomap")
-def geomap():
+# updated/refined geomap
+@app.route("/optimized_geomap")
+def optimized_geomap():
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
-# create a cursor
     cur = conn.cursor()
-# connect table.
-    cur.execute('''SELECT * FROM "Crash_Data" LEFT JOIN "Vehicle_Information" ON "Crash_Data".report_num = "Vehicle_Information".report_num LEFT JOIN "Driver" ON "Crash_Data".report_num = "Driver".report_num;''')
-    map_data = cur.fetchall()
+    cur.execute('''SELECT * FROM "Optimized_Data";''')
+    refined_data = cur.fetchall()
     cur.close()
     conn.close()
 
-    map_list = []
-    for item in map_data:
-        map_list.append({
-            "Report Number": item[0],
-            "Report Type": item[1],
-            "Date & Time": item[2],
-            "Weather": item[3],
-            "Light": item[4],
-            "Latitude": item[5],
-            "Longitude": item[6],
-            "Report Number": item[7],
-            "Vehicle_ID": item[8],
-            "Vehicle Damage": item[9],
-            "Body Type": item[10],
-            "Year": item[11],
-            "Make": item[12],
-            "Model": item[13],
-            "Report Number": item[14],
-            "SubstanceAbuse": item[15],
-            "Person_ID": item[16],
-            "Injury Severity": item[17]
+    refined_list = []
+    for item in refined_data:
+        refined_list.append({
+            "Date & Time": item[0],
+            "Weather": item[1],
+            "Latitude": item[2],
+            "Longitude": item[3],
+            "Vehicle Damage": item[4],
+            "Year": item[5],
+            "Make": item[6],
+            "Model": item[7],
+            "Substance Abuse": item[8],
+            "Injury Severity": item[9]
         })
-    # return render_template('index.html', data=data)
-    return jsonify(map_list)
+    return jsonify(refined_list)
+
+# # ROUTE FOR GEO MAP
+# @app.route("/geomap")
+# def geomap():
+#     conn = psycopg2.connect(database="car_crash", user="postgres",
+#                         password="postgres", host="localhost", port="5432")
+# # create a cursor
+#     cur = conn.cursor()
+# # connect table.
+#     cur.execute('''SELECT * FROM "Crash_Data" LEFT JOIN "Vehicle_Information" ON "Crash_Data".report_num = "Vehicle_Information".report_num LEFT JOIN "Driver" ON "Crash_Data".report_num = "Driver".report_num;''')
+#     map_data = cur.fetchall()
+#     cur.close()
+#     conn.close()
+
+#     map_list = []
+#     for item in map_data:
+#         map_list.append({
+#             "Report Number": item[0],
+#             "Report Type": item[1],
+#             "Date & Time": item[2],
+#             "Weather": item[3],
+#             "Light": item[4],
+#             "Latitude": item[5],
+#             "Longitude": item[6],
+#             "Report Number": item[7],
+#             "Vehicle_ID": item[8],
+#             "Vehicle Damage": item[9],
+#             "Body Type": item[10],
+#             "Year": item[11],
+#             "Make": item[12],
+#             "Model": item[13],
+#             "Report Number": item[14],
+#             "SubstanceAbuse": item[15],
+#             "Person_ID": item[16],
+#             "Injury Severity": item[17]
+#         })
+#     # return render_template('index.html', data=data)
+#     return jsonify(map_list)
 
 
 
