@@ -32,6 +32,37 @@ CREATE TABLE "Driver" (
     "substance_abuse" VARCHAR   NOT NULL,
     "injury_severity" VARCHAR   NOT NULL
 );
+
+CREATE TABLE "Optimized_Data" (
+	"date_time" VARCHAR NOT NULL,
+	"weather" VARCHAR NOT NULL,
+	"latitude" NUMERIC NOT NULL,
+	"longitude" NUMERIC NOT NULL,
+	"vehicle_damage" VARCHAR NOT NULL,
+	"year" INTEGER NOT NULL,
+	"make" VARCHAR NOT NULL,
+	"model" VARCHAR NOT NULL,
+	"substance_abuse" VARCHAR NOT NULL,
+	"injury_severity" VARCHAR NOT NULL
+);
+
+CREATE TABLE bubble_data AS
+SELECT
+    EXTRACT(DOW FROM date_time) AS day_numeric,
+    EXTRACT(HOUR FROM date_time) AS hour,
+    CASE
+        WHEN EXTRACT(DOW FROM date_time) IS NOT NULL THEN 1
+        ELSE 0
+    END AS new_column
+FROM
+    "Crash_Data";
+	
+ALTER TABLE bubble_data
+	RENAME COLUMN new_column TO accident_count;
+	
+SELECT * FROM "bubble_data";
+
+select * from "Optimized_Data"
 select * FROM "Driver" 
 
 drop table "Driver"

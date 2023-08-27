@@ -1,3 +1,29 @@
+// Function to get week number
+function getWeekNumber(dateString) {
+  // Parse the date string in the format "M/D/YYYY H:mm"
+  var parts = dateString.split(" ");
+  var dateParts = parts[0].split("/");
+  var timeParts = parts[1].split(":");
+  
+  var year = parseInt(dateParts[2], 10);
+  var month = parseInt(dateParts[0], 10) - 1; // Months are 0-indexed
+  var day = parseInt(dateParts[1], 10);
+  var hour = parseInt(timeParts[0], 10);
+  
+  var date = new Date(year, month, day, hour);
+
+  // Define the start date of the first week (e.g., July 1)
+  var firstWeekStartDate = new Date(year, 6, 1);
+
+  // Calculate the number of days between the given date and the start of the first week
+  var daysDifference = Math.floor((date - firstWeekStartDate) / (24 * 60 * 60 * 1000));
+
+  // Calculate the week number based on the number of days
+  var weekNumber = Math.ceil((daysDifference + 1) / 7);
+
+  return weekNumber;
+}
+
 // Define a function to initialize the map and markers
 function initializeMap() {
   // Create a map
@@ -27,7 +53,7 @@ function initializeMap() {
 
       markers.push({
         marker: marker, // Store the marker object
-        week: getWeekNumber(new Date(crash["Date & Time"]))
+        week: getWeekNumber(crash["Date & Time"])
       });
     });
 
@@ -55,10 +81,4 @@ function updateMapMarkers(selectedWeek, markers, markerLayer) {
       markerLayer.addLayer(crash.marker); // Use the marker object directly
     }
   });
-}
-
-// Function to get week number
-function getWeekNumber(date) {
-  var oneJan = new Date(date.getFullYear(), 0, 1);
-  return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
 }
