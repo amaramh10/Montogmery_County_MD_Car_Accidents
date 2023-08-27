@@ -1,107 +1,67 @@
-// Create a map
-var map = new ol.Map({
-  target: 'map',
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM() // OpenStreetMap as the base layer
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([-77.25183283, 39.15403667]),
-    zoom: 15
-  })
-});
+// Define a function to initialize the map and markers
+function initializeMap() {
+  // Create a map
+  var map = L.map('map').setView([39.15403667, -77.25183283], 15);
 
-// Fetch data for geomap graph
-d3.json('/geomap').then(data => {
-  console.log(data);
-  var vectorSource = new ol.source.Vector();
+  // Add OpenStreetMap as the base layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  // Create a marker using the createMarker function
-  function createMarker(crash) {
-    var marker = new ol.Feature({
-      geometry: new ol.geom.Point(
-        ol.proj.fromLonLat([crash.Longitude, crash.Latitude])
-      )
-    });
+  // Fetch data for geomap graph
+  d3.json('/optimized_geomap').then(data => {
+    var markers = []; // Array to hold all markers
 
-    var iconStyle = new ol.style.Style({
-      image: new ol.style.Icon({
-        src: 'https://openlayers.org/en/latest/examples/data/icon.png'
-      })
-    });
+    data.forEach(crash => {
+      var marker = L.marker([crash.Latitude, crash.Longitude]);
 
-    marker.setStyle(iconStyle);
-
-    // Add click event listener to each marker
-    marker.on('click', function () {
-      console.log('Marker clicked!', crash);
-      // Update the markerInfo element with the crash data
-      var markerInfo = document.getElementById('markerInfo');
-      markerInfo.innerHTML = `
+      marker.bindPopup(`
         <h2>Marker Information</h2>
-        <p>Report Number: ${crash["Report Number"]}</p>
-        <p>Report Type: ${crash["Report Type"]}</p>
         <p>Date & Time: ${crash["Date & Time"]}</p>
         <p>Weather: ${crash["Weather"]}</p>
-        <p>Light: ${crash["Light"]}</p>
-        <p>Latitude: ${crash["Latitude"]}</p>
-        <p>Longitude: ${crash["Longitude"]}</p>
-        <p>Vehicle Report Number: ${crash["Vehicle Report Number"]}</p>
-        <p>Vehicle ID: ${crash["Vehicle_ID"]}</p>
         <p>Vehicle Damage: ${crash["Vehicle Damage"]}</p>
-        <p>Body Type: ${crash["Body Type"]}</p>
         <p>Year: ${crash["Year"]}</p>
         <p>Make: ${crash["Make"]}</p>
         <p>Model: ${crash["Model"]}</p>
-        <p>Driver Report Number: ${crash["Driver Report Number"]}</p>
-        <p>Substance Abuse: ${crash["SubstanceAbuse"]}</p>
-        <p>Person ID: ${crash["Person_ID"]}</p>
+        <p>Substance Abuse: ${crash["Substance Abuse"]}</p>
         <p>Injury Severity: ${crash["Injury Severity"]}</p>
-      `;
+      `);
+
+      markers.push({
+        marker: marker, // Store the marker object
+        week: getWeekNumber(new Date(crash["Date & Time"]))
+      });
     });
 
-    return marker;
-  }
+    // Create a layer group for all markers
+    var markerLayer = L.layerGroup(markers.map(crash => crash.marker)).addTo(map);
 
-  // Function to update map markers based on selected week
-  function updateMapMarkers() {
-    var dropdown = document.getElementById('weekDropdown');
-    var selectedWeek = dropdown.value;
-
-    // Clear existing markers
-    vectorSource.clear();
-
-    // Filter data for the selected week
-    var selectedWeekData = data.filter(crash => {
-      var crashDate = new Date(crash["Date & Time"]);
-      var weekNumber = Math.ceil(crashDate.getDate() / 7);
-      return selectedWeek === 'week' + weekNumber;
+    // Dropdown event listener
+    var weekDropdown = document.getElementById('weekDropdown');
+    weekDropdown.addEventListener('change', function () {
+      var selectedWeek = parseInt(weekDropdown.value);
+      updateMapMarkers(selectedWeek, markers, markerLayer);
     });
-
-    // Add markers for the selected week
-    selectedWeekData.forEach(crash => {
-      var marker = createMarker(crash);
-      vectorSource.addFeature(marker);
-    });
-  }
-
-  // Call the function initially to load markers for the first week
-  updateMapMarkers();
-
-  var vectorLayer = new ol.layer.Vector({
-    source: vectorSource
   });
+}
 
-  // Add click event listener to the map
-  map.on('click', function () {
-    var markerInfo = document.getElementById('markerInfo');
-    markerInfo.innerHTML = '';
+// Call the initializeMap function when the page loads
+document.addEventListener('DOMContentLoaded', initializeMap);
+
+// Function to update markers based on selected week
+function updateMapMarkers(selectedWeek, markers, markerLayer) {
+  markerLayer.clearLayers(); // Clear existing markers
+
+  markers.forEach(crash => {
+    if (crash.week === selectedWeek) {
+      markerLayer.addLayer(crash.marker); // Use the marker object directly
+    }
   });
+}
 
-  // Add the vector layer to the map
-  map.addLayer(vectorLayer);
-});
+// Function to get week number
+function getWeekNumber(date) {
+  var oneJan = new Date(date.getFullYear(), 0, 1);
+  return Math.ceil(((date - oneJan) / 86400000 + oneJan.getDay() + 1) / 7);
+}
 
 d3.json('/bubble').then(item => {
   console.log(item);
@@ -174,5 +134,86 @@ d3.json('/bubble').then(item => {
     myChart.setOption(option);
   }
 
+  window.addEventListener('resize', myChart.resize);
+});
+
+d3.json('/line').then(item => {
+  console.log(item);
+  var dom = document.getElementById('linechart-container');
+  var myChart = echarts.init(dom, null, {
+    renderer: 'canvas',
+    useDirtyRect: false
+  });
+  var app = {};
+  
+  var option;
+  
+  option = {
+    title: {
+      text: 'Accidents Per Day'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: 'Email',
+        type: 'line',
+        stack: 'Total',
+        data: [120, 132, 101, 134, 90, 230, 210]
+      },
+      {
+        name: 'Union Ads',
+        type: 'line',
+        stack: 'Total',
+        data: [220, 182, 191, 234, 290, 330, 310]
+      },
+      {
+        name: 'Video Ads',
+        type: 'line',
+        stack: 'Total',
+        data: [150, 232, 201, 154, 190, 330, 410]
+      },
+      {
+        name: 'Direct',
+        type: 'line',
+        stack: 'Total',
+        data: [320, 332, 301, 334, 390, 330, 320]
+      },
+      {
+        name: 'Search Engine',
+        type: 'line',
+        stack: 'Total',
+        data: [820, 932, 901, 934, 1290, 1330, 1320]
+      }
+    ]
+  };
+  
+  if (option && typeof option === 'object') {
+    myChart.setOption(option);
+  }
+  
   window.addEventListener('resize', myChart.resize);
 });
