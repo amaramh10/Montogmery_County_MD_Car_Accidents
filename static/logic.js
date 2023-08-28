@@ -147,83 +147,92 @@ d3.json('/bubble').then(scatterData => {
 
 
 
-// line chart 
-// Line chart
-d3.json('/week_one').then(weekOneData => {
-  d3.json('/week_two').then(weekTwoData => {
-    d3.json('/week_three').then(weekThreeData => {
-      d3.json('/week_four').then(weekFourData => {
-        console.log(weekOneData);
-        console.log(weekTwoData);
-        console.log(weekThreeData);
-        console.log(weekFourData);
+// Fetch data for line chart
+Promise.all([
+  d3.json('/week_one'),
+  d3.json('/week_two'),
+  d3.json('/week_three'),
+  d3.json('/week_four')
+]).then(data => {
+  const weekOneData = data[0];
+  const weekTwoData = data[1];
+  const weekThreeData = data[2];
+  const weekFourData = data[3];
 
-        var dom = document.getElementById('linechart-container');
-        var myChart = echarts.init(dom, null, {
-          renderer: 'canvas',
-          useDirtyRect: false
-        });
-        var app = {};
-        var option;
+  console.log(weekOneData, weekTwoData, weekThreeData, weekFourData);
 
-        option = {
-          title: {
-            text: 'Accidents Per Day'
-          },
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: weekOneData.map(item => item.date_only) // Assuming date_only field contains date strings
-          },
-          yAxis: {
-            type: 'value'
-          },
-          series: [
-            {
-              name: 'Week 1',
-              type: 'line',
-              data: weekOneData.map(item => item.accident_count)
-            },
-            {
-              name: 'Week 2',
-              type: 'line',
-              data: weekTwoData.map(item => item.accident_count)
-            },
-            {
-              name: 'Week 3',
-              type: 'line',
-              data: weekThreeData.map(item => item.accident_count)
-            },
-            {
-              name: 'Week 4',
-              type: 'line',
-              data: weekFourData.map(item => item.accident_count)
-            }
-          ]
-        };
-        if (option && typeof option === 'object') {
-          myChart.setOption(option);
-        }
-        window.addEventListener('resize', myChart.resize);
-      });
-    });
+  var dom = document.getElementById('linechart-container');
+  var myChart = echarts.init(dom, null, {
+    renderer: 'canvas',
+    useDirtyRect: false
   });
+  var app = {};
+  var option;
+
+  option = {
+    title: {
+      text: 'Accidents Per Day'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: weekOneData.map(item => {
+        const date = new Date(item.date_only);
+        const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return dayOfWeek[date.getDay()];
+      }),
+      axisLabel: {
+        formatter: '{value}'
+      }
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: 'Week 1',
+        type: 'line',
+        data: weekOneData.map(item => item.accident_count)
+      },
+      {
+        name: 'Week 2',
+        type: 'line',
+        data: weekTwoData.map(item => item.accident_count)
+      },
+      {
+        name: 'Week 3',
+        type: 'line',
+        data: weekThreeData.map(item => item.accident_count)
+      },
+      {
+        name: 'Week 4',
+        type: 'line',
+        data: weekFourData.map(item => item.accident_count)
+      }
+    ]
+  };
+
+  if (option && typeof option === 'object') {
+    myChart.setOption(option);
+  }
+
+  window.addEventListener('resize', myChart.resize);
 });
 
