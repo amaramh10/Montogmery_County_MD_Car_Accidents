@@ -35,6 +35,7 @@ select * FROM "Driver"
 -- Bubble Chart Data
 CREATE TABLE bubble_data AS
 SELECT
+    date_time,
     EXTRACT(DOW FROM date_time) AS day_numeric,
     EXTRACT(HOUR FROM date_time) AS hour,
     CASE
@@ -42,9 +43,16 @@ SELECT
         ELSE 0
     END AS new_column
 FROM
-    "Crash_Data";
+    "Crash_Data"
+WHERE 
+    date_time BETWEEN '2023-07-02 00:00:00' AND '2023-07-29 23:59:59';
+	
 ALTER TABLE bubble_data
     RENAME COLUMN new_column TO accident_count;
+
+ALTER TABLE bubble_data
+	DROP COLUMN date_time;
+	
 SELECT * FROM "bubble_data";
 ---------------------------------------------------
 -- Week One Total Accidents by Day Table
@@ -98,3 +106,5 @@ ORDER BY date_only ASC;
 ALTER TABLE week_four_totals
     RENAME COLUMN new_column TO accident_count;
 SELECT * FROM "week_four_totals";
+
+
