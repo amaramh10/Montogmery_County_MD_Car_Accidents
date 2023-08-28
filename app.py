@@ -67,38 +67,98 @@ def bubble():
 
 
 
-# ROUTE FOR LINE PLOT USING ONLY CRASH DATA
-@app.route("/line")
+# ROUTES FOR LINE PLOT USING ONLY CRASH DATA
+
+# ROUTE FOR WEEK ONE DATA
+@app.route("/week_one")
 def line(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
-# create a cursor
+# Create a cursor
     cur = conn.cursor()
-# connect tables.
-    cur.execute('''SELECT * FROM "Crash_Data";''')
-    line_data = cur.fetchall()
+# Connect to table for week one of accident data
+    cur.execute('''SELECT * FROM "week_one_totals";''')
+    week_one_data = cur.fetchall()
     cur.close()
     conn.close()
 
-    line_list = []
-    for item in line_data:
-        line_list.append({
-            "Report Number": item[0],
-            "Report Type": item[1],
-            "Date & Time": item[2],
-            "Weather": item[3],
-            "Light": item[4],
-            "Latitude": item[5],
-            "Longitude": item[6]
+    week_one_list = []
+    for item in week_one_data:
+        week_one_list.append({
+            "date_only": item[0],
+            "accident_count": item[1]
         })
-    # return render_template('index.html', data=data)
-    return jsonify(line_list)
+    # Return render_template('index.html', data=data)
+    return jsonify(week_one_list)
 
+# ROUTE FOR WEEK TWO DATA
+@app.route("/week_two")
+def line(): 
+    conn = psycopg2.connect(database="car_crash", user="postgres",
+                        password="postgres", host="localhost", port="5432")
+# Create a cursor
+    cur = conn.cursor()
+# Connect to table for week two of accident data
+    cur.execute('''SELECT * FROM "week_two_totals";''')
+    week_two_data = cur.fetchall()
+    cur.close()
+    conn.close()
 
+    week_two_list = []
+    for item in week_two_data:
+        week_two_list.append({
+            "date_only": item[0],
+            "accident_count": item[1]
+        })
+    # Return render_template('index.html', data=data)
+    return jsonify(week_two_list)
+
+# ROUTE FOR WEEK THREE DATA
+@app.route("/week_three")
+def line(): 
+    conn = psycopg2.connect(database="car_crash", user="postgres",
+                        password="postgres", host="localhost", port="5432")
+# Create a cursor
+    cur = conn.cursor()
+# Connect to table for week three of accident data
+    cur.execute('''SELECT * FROM "week_three_totals";''')
+    week_three_data = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    week_three_list = []
+    for item in week_three_data:
+        week_three_list.append({
+            "date_only": item[0],
+            "accident_count": item[1]
+        })
+    # Return render_template('index.html', data=data)
+    return jsonify(week_three_list)
+
+# ROUTE FOR WEEK FOUR DATA
+@app.route("/week_four")
+def line(): 
+    conn = psycopg2.connect(database="car_crash", user="postgres",
+                        password="postgres", host="localhost", port="5432")
+# Create a cursor
+    cur = conn.cursor()
+# Connect to table for week four of accident data
+    cur.execute('''SELECT * FROM "week_four_totals";''')
+    week_four_data = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    week_four_list = []
+    for item in week_four_data:
+        week_four_list.append({
+            "date_only": item[0],
+            "accident_count": item[1]
+        })
+    # Return render_template('index.html', data=data)
+    return jsonify(week_four_list)
 
 # Connect to the database
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
