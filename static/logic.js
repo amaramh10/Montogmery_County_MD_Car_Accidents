@@ -171,13 +171,19 @@ Promise.all([
 
   option = {
     title: {
-      text: 'Accidents Per Day'
+      text: 'Daily Accident Totals for Each Week of July 2023',
+      textStyle: {
+        align: 'center'
+      }
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
+      data: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      orient: 'horizontal',
+      right: 35,
+      top:'bottomright'
     },
     grid: {
       left: '3%',
@@ -203,7 +209,11 @@ Promise.all([
       }
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      nameLocation: 'center',
+      name:'Number of Accidents',
+      nameGap:50
+
     },
     series: [
       {
