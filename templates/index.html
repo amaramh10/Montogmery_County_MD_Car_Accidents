@@ -36,12 +36,11 @@
   <!-- ECharts related scripts -->
   <div id="chart-container"></div>
   <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-  <script src="/static/logic.js"></script>
+  
 
   <!-- ECharts related scripts -->
   <div id="linechart-container"></div>
-  <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-  <script src="/static/logic.js"></script>
+  
 
   <!-- Setup Map -->
   <div id="map"></div>
@@ -49,15 +48,6 @@
 
   <!-- Include OpenLayers logic -->
   <script src="{{ url_for('static', filename='logic.js') }}"></script>
-
-
-  <!-- Add the dropdown element -->
-  <select id="weekDropdown" onchange="updateMapMarkers()">
-    <option value="week1">Week 1</option>
-    <option value="week2">Week 2</option>
-    <option value="week3">Week 3</option>
-    <option value="week4">Week 4</option>
-  </select>
 
 </body>
 </html>
