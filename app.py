@@ -71,7 +71,7 @@ def bubble():
 
 # ROUTE FOR WEEK ONE DATA
 @app.route("/week_one")
-def line(): 
+def line_1(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
 # Create a cursor
@@ -93,7 +93,7 @@ def line():
 
 # ROUTE FOR WEEK TWO DATA
 @app.route("/week_two")
-def line(): 
+def line_2(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
 # Create a cursor
@@ -115,7 +115,7 @@ def line():
 
 # ROUTE FOR WEEK THREE DATA
 @app.route("/week_three")
-def line(): 
+def line_3(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
 # Create a cursor
@@ -137,7 +137,7 @@ def line():
 
 # ROUTE FOR WEEK FOUR DATA
 @app.route("/week_four")
-def line(): 
+def line_4(): 
     conn = psycopg2.connect(database="car_crash", user="postgres",
                         password="postgres", host="localhost", port="5432")
 # Create a cursor
